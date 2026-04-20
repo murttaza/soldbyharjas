@@ -155,23 +155,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- FORM SUBMIT HANDLER (placeholder) ---
+  // --- FORM SUBMIT HANDLER (Formspree, AJAX) ---
   const form = document.getElementById('contactForm');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
       const originalText = btn.textContent;
-      btn.textContent = 'Message Sent!';
-      btn.style.background = '#2a7a3a';
+      btn.textContent = 'Sending...';
       btn.disabled = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+
+        if (response.ok) {
+          btn.textContent = 'Message Sent!';
+          btn.style.background = '#2a7a3a';
+          form.reset();
+        } else {
+          const data = await response.json().catch(() => ({}));
+          const msg = data?.errors?.[0]?.message || 'Something went wrong. Please try again.';
+          btn.textContent = msg;
+          btn.style.background = '#8a2a2a';
+        }
+      } catch (err) {
+        btn.textContent = 'Network error. Try again.';
+        btn.style.background = '#8a2a2a';
+      }
 
       setTimeout(() => {
         btn.textContent = originalText;
         btn.style.background = '';
         btn.disabled = false;
-        form.reset();
-      }, 3000);
+      }, 3500);
     });
   }
 
