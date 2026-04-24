@@ -2049,6 +2049,11 @@ img {
   letter-spacing: 0.3px;
 }
 
+.why-block-real-image.portrait {
+  aspect-ratio: 4/5;
+  object-position: center top;
+}
+
 .why-block-real-image {
   width: 100%;
   aspect-ratio: 16/10;
