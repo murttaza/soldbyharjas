@@ -928,6 +928,21 @@ img {
   color: var(--text-dim) !important;
 }
 
+/* Sold variant of the large listing card */
+.listing-card-lg.sold {
+  opacity: 0.85;
+}
+
+.listing-card-lg.sold:hover {
+  opacity: 1;
+  border-color: var(--border-light);
+}
+
+/* Spacing when a large card sits above the small-card grid in a section */
+.listings-grid-section .listing-card-lg + .listings-grid {
+  margin-top: 28px;
+}
+
 /* CTA listing card */
 .listing-cta-card {
   border: 1px dashed var(--border-light) !important;
